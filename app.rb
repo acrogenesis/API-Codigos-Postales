@@ -7,7 +7,7 @@ Cuba.define do
 
     on 'codigo_postal/:codigo_postal' do |codigo_postal|
       res.headers['Cache-Control'] = 'max-age=525600, public'
-      res.headers['Content-Type'] = 'application/json'
+      res.headers['Content-Type'] = 'application/json; charset=utf-8'
       res.write Oj.dump(PostalCode.where(codigo_postal: codigo_postal).as_json, mode: :object)
     end
   end
