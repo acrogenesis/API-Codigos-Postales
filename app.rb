@@ -1,7 +1,7 @@
 env = ENV['RACK_ENV'] ? ENV['RACK_ENV'] : 'development'
 ActiveRecord::Base.logger = Logger.new('debug.log')
 configuration = YAML::load(IO.read('config/database.yml'))
-ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'] ||configuration[env])
+ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'] || configuration[env])
 
 require 'cuba'
 require './models/postal_code'
