@@ -22,6 +22,8 @@ GEM
     json (1.8.2)
     minitest (5.5.1)
     pg (0.18.1)
+    puma (2.11.1)
+      rack (>= 1.1, < 2.0)
     rack (1.6.0)
     rake (10.4.2)
     thread_safe (0.3.4)
@@ -35,5 +37,6 @@ DEPENDENCIES
   activerecord
   cuba
   pg
+  puma
   rack
   rake
