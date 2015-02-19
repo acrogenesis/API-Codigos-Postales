@@ -1,6 +1,3 @@
-require 'cuba'
-require './models/postal_code'
-
 Cuba.define do
   on get do
     on root do
@@ -9,8 +6,9 @@ Cuba.define do
     end
 
     on 'codigo_postal/:codigo_postal' do |codigo_postal|
+      res.headers['Cache-Control'] = 'max-age=525600, public'
       res.headers['Content-Type'] = 'application/json'
-      res.write PostalCode.where(codigo_postal: codigo_postal).to_json
+      res.write Oj.dump(PostalCode.where(codigo_postal: codigo_postal).as_json, mode: :object)
     end
   end
 end

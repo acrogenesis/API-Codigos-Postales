@@ -21,8 +21,9 @@ GEM
     dalli (2.7.2)
     i18n (0.7.0)
     json (1.8.2)
-    kgio (2.9.3)
     minitest (5.5.1)
+    oj (2.11.4)
+    oj_mimic_json (1.0.1)
     pg (0.18.1)
     puma (2.11.1)
       rack (>= 1.1, < 2.0)
@@ -41,7 +42,8 @@ DEPENDENCIES
   activerecord
   cuba
   dalli
-  kgio
+  oj
+  oj_mimic_json
   pg
   puma
   rack

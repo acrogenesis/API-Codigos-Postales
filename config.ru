@@ -1,10 +1,13 @@
+require 'oj'
 require 'active_record'
 require 'pg'
 require 'logger'
-require './db'
-require './app'
 require 'dalli'
 require 'rack/cache'
+require 'cuba'
+require './db'
+require './app'
+require './models/postal_code'
 
 client = Dalli::Client.new((ENV['MEMCACHEDCLOUD_SERVERS'] || 'memcached://localhost:11211').split(','),
                            username: ENV['MEMCACHEDCLOUD_USERNAME'],
