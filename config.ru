@@ -9,6 +9,11 @@ require './db'
 require './app'
 require './models/postal_code'
 
+if ENV['RACK_ENV'] == 'production'
+  require 'rack/ssl'
+  use Rack::SSL
+end
+
 client = Dalli::Client.new((ENV['MEMCACHEDCLOUD_SERVERS'] || 'memcached://localhost:11211').split(','),
                            username: ENV['MEMCACHEDCLOUD_USERNAME'],
                            password: ENV['MEMCACHEDCLOUD_PASSWORD'],
