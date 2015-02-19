@@ -9,7 +9,7 @@ Cuba.define do
   on get do
     on root do
       res.write 'Danos un código postal y te regresamos la colonia, municipio y estado.
-                  https://dominio.com/codigo_postal/64600'
+                 https://api-codigos-postales.herokuapp.com/codigo_postal/64600'
     end
 
     on 'codigo_postal/:codigo_postal' do |codigo_postal|
