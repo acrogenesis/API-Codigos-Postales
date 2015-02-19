@@ -1,0 +1,7 @@
+development:
+  adapter: postgresql
+  min_messages: ERROR
+  pool: 5
+  timeout: 5000
+  database: codigos_postales
+  host: localhost
