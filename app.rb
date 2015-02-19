@@ -14,6 +14,7 @@ Cuba.define do
     end
 
     on 'codigo_postal/:codigo_postal' do |codigo_postal|
+      res.headers['Content-Type'] = 'application/json'
       res.write PostalCode.where(codigo_postal: codigo_postal).to_json
     end
   end
