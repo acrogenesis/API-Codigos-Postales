@@ -12,3 +12,5 @@ gem 'dalli'
 gem 'oj'
 gem 'oj_mimic_json'
 gem 'rack-ssl'
+
+gem 'foreman', group: :development
