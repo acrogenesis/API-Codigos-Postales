@@ -8,6 +8,7 @@ require 'cuba'
 require './db'
 require './app'
 require './models/postal_code'
+require './presenters/postal_codes'
 
 if ENV['RACK_ENV'] == 'production'
   require 'rack/ssl'

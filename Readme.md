@@ -1,26 +1,78 @@
 # API para los códigos postales de México
 
 Dado un código postal, regresa un arreglo con las colonia, municipio y estado perteneciente al código postal.
+Además se pueden realizar búsquedas de códigos postales usando los números iniciales.
 
-Ej.
-`https://api-codigos-postales.herokuapp.com/codigo_postal/64630`
-Regresa:
+### Ejemplos de uso
+
+#### Liga a la API
+
+[https://api-codigos-postales.herokuapp.com](https://api-codigos-postales.herokuapp.com)
+
+
+
+** Consultar la información de un código postal **
+
+```text
+https://api-codigos-postales.herokuapp.com/codigo_postal
+```
+
+** Respuesta del servidor **
 ```json
-[
-    {
+{
+    "codigos_postales":
+    [
+      {
         "codigo_postal": "64630",
         "colonia": "Colinas de San Jerónimo",
         "municipio": "Monterrey",
         "estado": "Nuevo León"
-    },
-    {
+      },
+      {
         "codigo_postal": "64630",
         "colonia": "San Jemo 1 Sector",
         "municipio": "Monterrey",
         "estado": "Nuevo León"
-    }
-]
+      }
+    ]
+}
 ```
+
+---
+
+** Buscar códigos postales **
+
+```text
+ https://api-codigos-postales.herokuapp.com/buscar
+```
+
+_parametros necesarios_
+```text
+  codigo_postal=# codigo a buscar, parcial o total
+```
+_ Ejemplo de busqueda para códigos que inicien con **66**, con **664** y con **6641** _
+```json
+https://api-codigos-postales.herokuapp.com/buscar?codigo_postal=66
+https://api-codigos-postales.herokuapp.com/buscar?codigo_postal=664
+https://api-codigos-postales.herokuapp.com/buscar?codigo_postal=6641
+```
+
+** El servidor regresa **
+```json
+{
+    "codigos_postales":
+    [
+      {
+        "codigo_postal": "66400",
+      },
+      {
+        "codigo_postal": "66409"
+      }
+    ]
+}
+```
+
+___
 
 ### Colabora
 Errores y pull requests son bienvenidos en Github: https://github.com/Munett/API-Codigos-Postales.
