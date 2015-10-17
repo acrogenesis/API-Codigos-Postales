@@ -63,6 +63,7 @@ namespace :sepomex do
     old_logger = ActiveRecord::Base.logger
     ActiveRecord::Base.logger = nil
     count = 0
+    total = csv.count
     csv.each do |row|
       arg = {}
       row_h = row.to_h
@@ -71,7 +72,7 @@ namespace :sepomex do
       arg[:municipio] = row_h['D_mnpio']
       arg[:estado] = row_h['d_estado']
       PostalCode.find_or_create_by(arg)
-      print '.' if (count % 1000) == 0
+      print "#{(100 * count) / total}% \r"
       count += 1
     end
     ActiveRecord::Base.logger = old_logger
