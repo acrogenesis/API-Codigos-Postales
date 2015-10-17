@@ -22,6 +22,10 @@ Regresa:
 ]
 ```
 
+### Colabora
+Errores y pull requests son bienvenidos en Github: https://github.com/Munett/API-Codigos-Postales.
+
+
 Los datos se obtuvieron de http://www.correosdemexico.gob.mx/ServiciosLinea/Paginas/DescargaCP.aspx
 
 Fecha de actualización:  **26 de enero de 2015**
