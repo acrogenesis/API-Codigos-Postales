@@ -2,7 +2,8 @@ module PostalCodes
 
   def self.fetch_codes(code)
     postal_codes = search_postal_codes(code)
-    serialize(postal_codes)
+    postal_codes_json = prepare_json(postal_codes)
+    serialize(postal_codes_json)
   end
 
   def self.search_postal_codes(code)
@@ -13,16 +14,20 @@ module PostalCodes
 
   def self.fetch_locations(code)
     locations = search_locations(code)
-    serialize(locations)
+    locations_json = prepare_json(locations)
+    serialize(locations_json)
   end
 
   def self.search_locations(code)
     locations = PostalCode.where(codigo_postal: code)
   end
 
+  def self.prepare_json(data)
+    data.as_json(except: :id)
+  end
+
   def self.serialize(data)
-    json = { 'codigos_postales' => data.as_json(except: :id) }
-    Oj.dump(json, mode: :object)
+    Oj.dump(data, mode: :object)
   end
 
 end
