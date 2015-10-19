@@ -2,28 +2,41 @@ module PostalCodes
 
   def self.fetch_codes(code)
     postal_codes = search_postal_codes(code)
-    postal_codes_json = prepare_json(postal_codes)
+    postal_codes_json = prepare_postal_codes_json(postal_codes)
     serialize(postal_codes_json)
   end
 
   def self.search_postal_codes(code)
-    postal_codes = PostalCode.select('DISTINCT codigo_postal')
-      .where('codigo_postal LIKE :prefix', prefix: "#{code}%")
-      .order('codigo_postal ASC')
+    postal_codes = PostalCode.with_code_hint(code)
   end
 
   def self.fetch_locations(code)
     locations = search_locations(code)
-    locations_json = prepare_json(locations)
+    shared_data = shared_data(code)
+    locations_json = prepare_locations_json(locations, code, shared_data)
     serialize(locations_json)
   end
 
   def self.search_locations(code)
-    locations = PostalCode.where(codigo_postal: code)
+    locations = PostalCode.get_suburbs_for(code)
   end
 
-  def self.prepare_json(data)
-    data.as_json(except: :id)
+  def self.shared_data(code)
+    shared_data = PostalCode.get_shared_data_for(code)
+    shared_data.flatten!
+    shared_data = ["",""] if shared_data.empty?
+    shared_data
+  end
+
+  def self.prepare_locations_json(locations, code, shared_data)
+    { "codigo_postal" => code,
+      "municipio" => shared_data[0],
+      "estado" => shared_data[1],
+      "colonias" => locations }
+  end
+
+  def self.prepare_postal_codes_json(codes)
+    { "codigos_postales" => codes }
   end
 
   def self.serialize(data)

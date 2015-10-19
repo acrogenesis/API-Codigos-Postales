@@ -14,25 +14,20 @@ Además se pueden realizar búsquedas de códigos postales usando los números i
 **Consultar la información de un código postal**
 
 ```text
-https://api-codigos-postales.herokuapp.com/codigo_postal/64630
+https://api-codigos-postales.herokuapp.com/codigo_postal/66436
 ```
 
 **Respuesta del servidor**
 ```json
-[
-  {
-    "codigo_postal": "64630",
-    "colonia": "Colinas de San Jerónimo",
-    "municipio": "Monterrey",
-    "estado": "Nuevo León"
-  },
-  {
-    "codigo_postal": "64630",
-    "colonia": "San Jemo 1 Sector",
-    "municipio": "Monterrey",
-    "estado": "Nuevo León"
-  }
-]
+{
+  "codigo_postal": "66436",
+  "municipio": "San Nicolás de los Garza",
+  "estado": "Nuevo León",
+  "colonias": [
+    "Praderas de Santo Domingo",
+    "Las Nuevas Puente"
+  ]
+}
 ```
 
 ---
@@ -54,19 +49,19 @@ https://api-codigos-postales.herokuapp.com/buscar?codigo_postal=664
 https://api-codigos-postales.herokuapp.com/buscar?codigo_postal=6641
 ```
 
-** El servidor regresa **
+** Para el codigo postal 6641 el servidor regresa **
 ```json
-[
-  {
-    "codigo_postal": "66400"
-  },
-  {
-    "codigo_postal": "66409"
-  },
-  {
-    ...
-  }
-]
+{
+  "codigos_postales": [
+    "66410",
+    "66412",
+    "66413",
+    "66414",
+    "66415",
+    "66417",
+    "66418"
+  ]
+}
 ```
 
 ___
