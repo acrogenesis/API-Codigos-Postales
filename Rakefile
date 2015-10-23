@@ -40,7 +40,7 @@ namespace :sepomex do
 
     puts 'Extracting Zip'
     Zip::File.open('latest.zip') do |zip_file|
-      zip_file.extract('CPdescarga.txt', 'latest.csv')
+      zip_file.extract('CPdescarga.txt', 'latest.csv') { true }
     end
 
     puts 'Parsing Postal Codes'
