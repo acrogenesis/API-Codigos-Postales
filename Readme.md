@@ -10,11 +10,10 @@ Además se pueden realizar búsquedas de códigos postales usando los números i
 [https://api-codigos-postales.herokuapp.com](https://api-codigos-postales.herokuapp.com)
 
 
-
 **Consultar la información de un código postal**
 
 ```text
-https://api-codigos-postales.herokuapp.com/codigo_postal/66436
+https://api-codigos-postales.herokuapp.com/v2/codigo_postal/66436
 ```
 
 **Respuesta del servidor**
@@ -35,7 +34,7 @@ https://api-codigos-postales.herokuapp.com/codigo_postal/66436
 **Buscar códigos postales**
 
 ```text
- https://api-codigos-postales.herokuapp.com/buscar
+ https://api-codigos-postales.herokuapp.com/v2/buscar
 ```
 
 _parametros necesarios_
@@ -44,9 +43,9 @@ _parametros necesarios_
 ```
 _Ejemplo de busqueda para códigos que inicien con **66**, con **664** y con **6641**_
 ```json
-https://api-codigos-postales.herokuapp.com/buscar?codigo_postal=66
-https://api-codigos-postales.herokuapp.com/buscar?codigo_postal=664
-https://api-codigos-postales.herokuapp.com/buscar?codigo_postal=6641
+https://api-codigos-postales.herokuapp.com/v2/buscar?codigo_postal=66
+https://api-codigos-postales.herokuapp.com/v2/buscar?codigo_postal=664
+https://api-codigos-postales.herokuapp.com/v2/buscar?codigo_postal=6641
 ```
 
 ** Para el codigo postal 6641 el servidor regresa **
