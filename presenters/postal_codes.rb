@@ -1,5 +1,4 @@
 module PostalCodes
-
   def self.fetch_codes(code)
     postal_codes = search_postal_codes(code)
     postal_codes_json = prepare_postal_codes_json(postal_codes)
@@ -7,7 +6,7 @@ module PostalCodes
   end
 
   def self.search_postal_codes(code)
-    postal_codes = PostalCode.with_code_hint(code)
+    PostalCode.with_code_hint(code)
   end
 
   def self.fetch_locations(code)
@@ -18,29 +17,28 @@ module PostalCodes
   end
 
   def self.search_locations(code)
-    locations = PostalCode.get_suburbs_for(code)
+    PostalCode.get_suburbs_for(code)
   end
 
   def self.shared_data(code)
     shared_data = PostalCode.get_shared_data_for(code)
     shared_data.flatten!
-    shared_data = ["",""] if shared_data.empty?
+    shared_data = ['', ''] if shared_data.empty?
     shared_data
   end
 
   def self.prepare_locations_json(locations, code, shared_data)
-    { "codigo_postal" => code,
-      "municipio" => shared_data[0],
-      "estado" => shared_data[1],
-      "colonias" => locations }
+    { 'codigo_postal' => code,
+      'municipio' => shared_data[0],
+      'estado' => shared_data[1],
+      'colonias' => locations }
   end
 
   def self.prepare_postal_codes_json(codes)
-    { "codigos_postales" => codes }
+    { 'codigos_postales' => codes }
   end
 
   def self.serialize(data)
     Oj.dump(data, mode: :object)
   end
-
 end
