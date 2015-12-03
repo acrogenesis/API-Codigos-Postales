@@ -1,8 +1,9 @@
 Cuba.define do
   on get do
     on root do
-      res.write 'Danos un código postal y te regresamos la colonia, municipio y estado.
-                 https://api-codigos-postales.herokuapp.com/v2/codigo_postal/64600'
+      res.write '<p>Danos un código postal y te regresamos la colonia, municipio y estado.
+                 <a href="https://api-codigos-postales.herokuapp.com/v2/codigo_postal/64600">https://api-codigos-postales.herokuapp.com/v2/codigo_postal/64600</a></p>
+                 <p>Más información en <a href="https://github.com/Munett/API-Codigos-Postales">https://github.com/Munett/API-Codigos-Postales</a></p>'
     end
 
     on 'codigo_postal/:codigo_postal' do |codigo_postal|
