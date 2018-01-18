@@ -66,6 +66,9 @@ https://api-codigos-postales.herokuapp.com/v2/buscar?codigo_postal=6641
 
 ___
 
+### Rake task
+Ejecuta el rake task `rake sepomex:update` para descargar todos los códigos postales de méxico y actualizar tu base de datos.
+
 ### Colabora
 Errores y pull requests son bienvenidos en Github: https://github.com/Munett/API-Codigos-Postales.
 Para bajar en tu BD todos los códigos postales corre el rake script `rake sepomex:update`.
