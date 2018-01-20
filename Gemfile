@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
-ruby '2.2.3'
+ruby '2.4.2'
 
 gem 'rake'
 gem 'rack'
 gem 'cuba'
 gem 'activerecord'
-gem 'pg'
+gem 'pg', '~> 0.18'
 gem 'puma'
 gem 'rack-cache'
 gem 'dalli'
