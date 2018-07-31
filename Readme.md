@@ -73,7 +73,7 @@ Ejecuta el rake task `rake sepomex:update` para descargar todos los códigos pos
 Errores y pull requests son bienvenidos en Github: https://github.com/Munett/API-Codigos-Postales.
 Para bajar en tu BD todos los códigos postales corre el rake script `rake sepomex:update`.
 
-Los datos se obtuvieron de http://www.correosdemexico.gob.mx/ServiciosLinea/Paginas/DescargaCP.aspx
+Los datos se obtuvieron de http://www.correosdemexico.gob.mx/lservicios/servicios/CodigoPostal_Exportar.aspx
 
 ### TODO
 - [ ] Pruebas automatizadas minitest
