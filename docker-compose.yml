@@ -1,0 +1,36 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: secret
+
+  memcached:
+    image: memcached
+
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://postgres:secret@db:5432/postgres
+      MEMCACHEDCLOUD_SERVERS: memcached://memcached:11211
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - memcached
+
+  initdata:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://postgres:secret@db:5432/postgres
+      MEMCACHEDCLOUD_SERVERS: memcached://memcached:11211
+    depends_on:
+      - app
+      - db
+    entrypoint: >
+      /bin/sh -c "
+      rake sepomex:update
+      exit 0;
+      "
