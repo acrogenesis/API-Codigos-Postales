@@ -6,6 +6,12 @@
 Dado un código postal, regresa un arreglo con las colonia, municipio y estado perteneciente al código postal.
 Además se pueden realizar búsquedas de códigos postales usando los números iniciales.
 
+## Sube la app a heroku
+1) Da click en el botón `Deploy to Herkou` y sigue los pasos.
+2) Al terminar corre `heroku run rake sepomex:update`.
+3) Agrega el task de `rake sepomex:update` en el addon de Heroku
+Scheduler para que se corra cada día.
+
 ### Ejemplos de uso
 
 #### Liga a la API
