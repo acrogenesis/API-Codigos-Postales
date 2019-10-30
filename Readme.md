@@ -74,6 +74,16 @@ https://api-codigos-postales.herokuapp.com/v2/buscar?codigo_postal=6641
 
 ___
 
+
+### Instalación
+
+Para instalar con Docker y Docker Compose:
+
+```sh
+$ docker-compose up
+# Aplicación en: http://localhost:3000
+```
+
 ### Rake task
 Ejecuta el rake task `rake sepomex:update` para descargar todos los códigos postales de méxico y actualizar tu base de datos.
 
