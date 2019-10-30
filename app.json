@@ -1,0 +1,18 @@
+{
+  "name": "API Códigos Postales México",
+  "description": "Una API de los códigos postales en méxico",
+  "repository": "https://github.com/acrogenesis/API-Codigos-Postales",
+  "keywords": ["api", "codigo postal", "mexico", "zip_code"],
+  "scripts": {
+    "postdeploy": "bundle exec rake db:migrate && bundle exec rake sepomex:update"
+  },
+  "image": "heroku/ruby",
+  "addons": [
+    "heroku-postgresql",
+    "memcachedcloud",
+    {
+      "plan": "scheduler",
+      "options": {}
+    }
+  ]
+}
