@@ -15,17 +15,19 @@ if ENV['RACK_ENV'] == 'production'
   use Rack::SSL
 end
 
-client = Dalli::Client.new((ENV['MEMCACHEDCLOUD_SERVERS'] || 'memcached://localhost:11211').split(','),
-                           username: ENV['MEMCACHEDCLOUD_USERNAME'],
-                           password: ENV['MEMCACHEDCLOUD_PASSWORD'],
-                           failover: true,
-                           socket_timeout: 1.5,
-                           socket_failure_delay: 0.2,
-                           value_max_bytes: 10_485_760)
+if ENV['MEMCACHEDCLOUD_USERNAME']
+  client = Dalli::Client.new((ENV['MEMCACHEDCLOUD_SERVERS'] || 'memcached://localhost:11211').split(','),
+                             username: ENV['MEMCACHEDCLOUD_USERNAME'],
+                             password: ENV['MEMCACHEDCLOUD_PASSWORD'],
+                             failover: true,
+                             socket_timeout: 1.5,
+                             socket_failure_delay: 0.2,
+                             value_max_bytes: 10_485_760)
 
-use Rack::Cache,
-    verbose: true,
-    metastore: client,
-    entitystore: client
+  use Rack::Cache,
+      verbose: true,
+      metastore: client,
+      entitystore: client
+end
 
 run Cuba
