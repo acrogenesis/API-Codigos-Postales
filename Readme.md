@@ -12,17 +12,15 @@ Además se pueden realizar búsquedas de códigos postales usando los números i
 3) Agrega el task de `rake sepomex:update` en el addon de Heroku
 Scheduler para que se corra cada día.
 
-### Ejemplos de uso
+## Liga a la API
 
-#### Liga a la API
-
-[https://api-codigos-postales.herokuapp.com](https://api-codigos-postales.herokuapp.com)
+[https://rapidapi.com/acrogenesis/api/mexico-zip-codes](https://rapidapi.com/acrogenesis/api/mexico-zip-codes)
 
 
 **Consultar la información de un código postal**
 
 ```text
-https://api-codigos-postales.herokuapp.com/v2/codigo_postal/66436
+https://mexico-zip-codes.p.rapidapi.com/codigo_postal/66436
 ```
 
 **Respuesta del servidor**
@@ -43,7 +41,7 @@ https://api-codigos-postales.herokuapp.com/v2/codigo_postal/66436
 **Buscar códigos postales**
 
 ```text
- https://api-codigos-postales.herokuapp.com/v2/buscar
+https://mexico-zip-codes.p.rapidapi.com/buscar
 ```
 
 _parametros necesarios_
@@ -52,9 +50,9 @@ _parametros necesarios_
 ```
 _Ejemplo de busqueda para códigos que inicien con **66**, con **664** y con **6641**_
 ```json
-https://api-codigos-postales.herokuapp.com/v2/buscar?codigo_postal=66
-https://api-codigos-postales.herokuapp.com/v2/buscar?codigo_postal=664
-https://api-codigos-postales.herokuapp.com/v2/buscar?codigo_postal=6641
+https://mexico-zip-codes.p.rapidapi.com/buscar?codigo_postal=66
+https://mexico-zip-codes.p.rapidapi.com/buscar?codigo_postal=664
+https://mexico-zip-codes.p.rapidapi.com/buscar?codigo_postal=6641
 ```
 
 ** Para el codigo postal 6641 el servidor regresa **
