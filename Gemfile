@@ -13,5 +13,6 @@ gem 'oj'
 gem 'oj_mimic_json'
 gem 'rack-ssl'
 gem 'rubyzip', '>= 1.1.0'
+gem 'warden'
 
 gem 'foreman', group: :development
