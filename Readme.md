@@ -12,7 +12,7 @@ Además se pueden realizar búsquedas de códigos postales usando los números i
 3) Agrega el task de `rake sepomex:update` en el addon de Heroku
 Scheduler para que se corra cada día.
 
-## Liga a la API
+## Suscripción y documentación de la API 
 
 [https://rapidapi.com/acrogenesis/api/mexico-zip-codes](https://rapidapi.com/acrogenesis/api/mexico-zip-codes)
 
