@@ -27,7 +27,7 @@ GEM
     pg (0.21.0)
     puma (4.3.5)
       nio4r (~> 2.0)
-    rack (2.2.2)
+    rack (2.2.3)
     rack-cache (1.12.0)
       rack (>= 0.4)
     rack-ssl (1.4.1)
