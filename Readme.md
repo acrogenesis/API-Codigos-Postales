@@ -7,7 +7,7 @@ Dado un código postal, regresa un arreglo con las colonia, municipio y estado p
 Además se pueden realizar búsquedas de códigos postales usando los números iniciales.
 
 ## Sube la app a heroku
-1) Da click en el botón `Deploy to Herkou` y sigue los pasos.
+1) Da click en el botón `Deploy to Heroku` y sigue los pasos.
 2) Al terminar corre `heroku run rake sepomex:update`.
 3) Agrega el task de `rake sepomex:update` en el addon de Heroku
 Scheduler para que se corra cada día.
@@ -44,18 +44,18 @@ https://mexico-zip-codes.p.rapidapi.com/codigo_postal/66436
 https://mexico-zip-codes.p.rapidapi.com/buscar
 ```
 
-_parametros necesarios_
+_parámetros necesarios_
 ```text
   codigo_postal=# codigo a buscar, parcial o total
 ```
-_Ejemplo de busqueda para códigos que inicien con **66**, con **664** y con **6641**_
+_Ejemplo de búsqueda para códigos que inicien con **66**, con **664** y con **6641**_
 ```json
 https://mexico-zip-codes.p.rapidapi.com/buscar?codigo_postal=66
 https://mexico-zip-codes.p.rapidapi.com/buscar?codigo_postal=664
 https://mexico-zip-codes.p.rapidapi.com/buscar?codigo_postal=6641
 ```
 
-** Para el codigo postal 6641 el servidor regresa **
+** Para el código postal 6641 el servidor regresa **
 ```json
 {
   "codigos_postales": [
@@ -73,7 +73,7 @@ https://mexico-zip-codes.p.rapidapi.com/buscar?codigo_postal=6641
 ___
 
 ### Rake task
-Ejecuta el rake task `rake sepomex:update` para descargar todos los códigos postales de méxico y actualizar tu base de datos.
+Ejecuta el rake task `rake sepomex:update` para descargar todos los códigos postales de México y actualizar tu base de datos.
 
 ### Colabora
 Errores y pull requests son bienvenidos en Github: https://github.com/Munett/API-Codigos-Postales.
