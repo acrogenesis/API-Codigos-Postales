@@ -1,7 +1,7 @@
 # API para los códigos postales de México
 [![Code Climate](https://codeclimate.com/github/Munett/API-Codigos-Postales/badges/gpa.svg)](https://codeclimate.com/github/Munett/API-Codigos-Postales)
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/acrogenesis/API-Codigos-Postales)
 
 Dado un código postal, regresa un arreglo con las colonia, municipio y estado perteneciente al código postal.
 Además se pueden realizar búsquedas de códigos postales usando los números iniciales.
