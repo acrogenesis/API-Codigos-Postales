@@ -3,5 +3,5 @@ development:
   min_messages: ERROR
   pool: 5
   timeout: 5000
-  database: codigos_postales
+  database: api-codigos-postales
   host: localhost

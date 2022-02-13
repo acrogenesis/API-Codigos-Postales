@@ -1,66 +1,84 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (5.2.4.3)
-      activesupport (= 5.2.4.3)
-    activerecord (5.2.4.3)
-      activemodel (= 5.2.4.3)
-      activesupport (= 5.2.4.3)
-      arel (>= 9.0)
-    activesupport (5.2.4.3)
+    activemodel (7.0.2.2)
+      activesupport (= 7.0.2.2)
+    activerecord (7.0.2.2)
+      activemodel (= 7.0.2.2)
+      activesupport (= 7.0.2.2)
+    activesupport (7.0.2.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
-      i18n (>= 0.7, < 2)
-      minitest (~> 5.1)
-      tzinfo (~> 1.1)
-    arel (9.0.0)
-    concurrent-ruby (1.1.6)
-    cuba (3.9.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+    ast (2.4.2)
+    concurrent-ruby (1.1.9)
+    cuba (3.9.3)
       rack (>= 1.6.0)
-    dalli (2.7.10)
-    foreman (0.87.1)
-    i18n (1.8.3)
+    dalli (3.2.0)
+    foreman (0.87.2)
+    i18n (1.9.1)
       concurrent-ruby (~> 1.0)
-    minitest (5.14.1)
-    nio4r (2.5.2)
-    oj (3.10.6)
+    minitest (5.15.0)
+    nio4r (2.5.8)
+    oj (3.13.11)
     oj_mimic_json (1.0.1)
-    pg (0.21.0)
-    puma (4.3.5)
+    parallel (1.21.0)
+    parser (3.1.0.0)
+      ast (~> 2.4.1)
+    pg (1.3.1)
+    puma (5.6.2)
       nio4r (~> 2.0)
-    rack (2.2.2)
-    rack-cache (1.12.0)
+    rack (2.2.3)
+    rack-cache (1.13.0)
       rack (>= 0.4)
     rack-ssl (1.4.1)
       rack
-    rake (13.0.1)
-    rubyzip (2.3.0)
-    thread_safe (0.3.6)
-    tzinfo (1.2.7)
-      thread_safe (~> 0.1)
-    warden (1.2.8)
-      rack (>= 2.0.6)
+    rainbow (3.1.1)
+    rake (13.0.6)
+    regexp_parser (2.2.1)
+    rexml (3.2.5)
+    rubocop (1.25.1)
+      parallel (~> 1.10)
+      parser (>= 3.1.0.0)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.8, < 3.0)
+      rexml
+      rubocop-ast (>= 1.15.1, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 3.0)
+    rubocop-ast (1.15.2)
+      parser (>= 3.0.1.1)
+    ruby-progressbar (1.11.0)
+    rubyzip (2.3.2)
+    tzinfo (2.0.4)
+      concurrent-ruby (~> 1.0)
+    unicode-display_width (2.1.0)
+    warden (1.2.9)
+      rack (>= 2.0.9)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord (~> 5.2)
+  activerecord
   cuba
   dalli
   foreman
   oj
   oj_mimic_json
-  pg (~> 0.18)
+  pg
   puma
   rack
   rack-cache
   rack-ssl
   rake
-  rubyzip (>= 1.1.0)
+  rubocop
+  rubyzip
   warden
 
 RUBY VERSION
-   ruby 2.6.6p146
+   ruby 3.1.0p0
 
 BUNDLED WITH
-   1.17.3
+   2.3.7

@@ -10,7 +10,7 @@ Cuba.define do
       res.headers['Cache-Control'] = 'max-age=525600, public'
       res.headers['Content-Type'] = 'application/json; charset=utf-8'
       res.headers['Access-Control-Allow-Origin'] = '*'
-      res.write Oj.dump(PostalCode.where(codigo_postal: codigo_postal)
+      res.write Oj.dump(PostalCode.where(codigo_postal:)
         .as_json(except: :id), mode: :object)
     end
 
