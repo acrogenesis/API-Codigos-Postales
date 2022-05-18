@@ -32,8 +32,6 @@ GEM
     rack (2.2.3)
     rack-cache (1.13.0)
       rack (>= 0.4)
-    rack-ssl (1.4.1)
-      rack
     rainbow (3.1.1)
     rake (13.0.6)
     regexp_parser (2.4.0)
@@ -71,7 +69,6 @@ DEPENDENCIES
   puma
   rack
   rack-cache
-  rack-ssl
   rake
   rubocop
   rubyzip

@@ -12,11 +12,6 @@ require './models/postal_code'
 require './presenters/postal_codes'
 require './authentication/token_strategy'
 
-if ENV['RACK_ENV'] == 'production'
-  require 'rack/ssl'
-  use Rack::SSL
-end
-
 if ENV['VALIDATE_HEADER']
   Warden::Strategies.add(:token, Authentication::TokenStrategy)
   use Warden::Manager do |manager|
