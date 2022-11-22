@@ -15,7 +15,7 @@ GEM
     concurrent-ruby (1.1.10)
     cuba (3.9.3)
       rack (>= 1.6.0)
-    dalli (3.2.1)
+    dalli (3.2.3)
     foreman (0.87.2)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
