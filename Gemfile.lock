@@ -30,7 +30,7 @@ GEM
     pg (1.4.5)
     puma (6.0.0)
       nio4r (~> 2.0)
-    rack (3.0.1)
+    rack (3.0.4.2)
     rack-cache (1.13.0)
       rack (>= 0.4)
     rainbow (3.1.1)
