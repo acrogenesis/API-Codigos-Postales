@@ -14,7 +14,7 @@ Scheduler para que se corra cada día.
 
 ## Suscripción y documentación de la API 
 
-[https://rapidapi.com/acrogenesis/api/mexico-zip-codes](https://rapidapi.com/acrogenesis/api/mexico-zip-codes)
+[https://rapidapi.com/acrogenesis-llc-api/api/mexico-zip-codes](https://rapidapi.com/acrogenesis-llc-api/api/mexico-zip-codes)
 
 
 **Consultar la información de un código postal**
