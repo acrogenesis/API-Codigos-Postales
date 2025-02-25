@@ -6,6 +6,13 @@ require 'dalli'
 require 'rack/cache'
 require 'cuba'
 require 'warden'
+
+# Load .env file in development environment
+if ENV['RACK_ENV'] != 'production'
+  require 'dotenv'
+  Dotenv.load
+end
+
 require './db'
 require './app'
 require './models/postal_code'

@@ -35,6 +35,7 @@ GEM
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
     diff-lcs (1.6.0)
+    dotenv (3.1.7)
     drb (2.2.1)
     factory_bot (6.5.1)
       activesupport (>= 6.1.0)
@@ -120,6 +121,7 @@ DEPENDENCIES
   cuba
   dalli
   database_cleaner-active_record
+  dotenv
   factory_bot
   faker
   foreman
