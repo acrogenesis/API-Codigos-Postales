@@ -107,6 +107,8 @@ RSpec.describe 'API' do
   describe 'GET /v2/buscar' do
     let!(:postal_code1) { create(:postal_code, codigo_postal: '12345') }
     let!(:postal_code2) { create(:postal_code, codigo_postal: '12346') }
+    let!(:postal_code3) { create(:postal_code, codigo_postal: '12347') }
+    let!(:postal_code4) { create(:postal_code, codigo_postal: '12348') }
 
     it 'returns matching postal codes in v2 format' do
       get '/v2/buscar?codigo_postal=123'
@@ -114,8 +116,26 @@ RSpec.describe 'API' do
       expect(last_response.headers['Content-Type']).to include('application/json')
 
       json_response = Oj.load(last_response.body)
-      puts "Response body: #{last_response.body}"
-      expect(json_response['codigos_postales']).to match_array(%w[12345 12346])
+      expect(json_response['codigos_postales']).to match_array(%w[12345 12346 12347 12348])
+    end
+
+    it 'returns limited postal codes when limit parameter is provided' do
+      get '/v2/buscar?codigo_postal=123&limit=2'
+      expect(last_response).to be_ok
+      expect(last_response.headers['Content-Type']).to include('application/json')
+
+      json_response = Oj.load(last_response.body)
+      expect(json_response['codigos_postales'].length).to eq(2)
+      expect(json_response['codigos_postales']).to include('12345', '12346')
+    end
+
+    it 'returns all postal codes when limit is not a positive number' do
+      get '/v2/buscar?codigo_postal=123&limit=0'
+      expect(last_response).to be_ok
+
+      json_response = Oj.load(last_response.body)
+      expect(json_response['codigos_postales'].length).to eq(4)
+      expect(json_response['codigos_postales']).to match_array(%w[12345 12346 12347 12348])
     end
   end
 
@@ -138,6 +158,18 @@ RSpec.describe 'API' do
              municipio: test_municipio,
              colonia: 'Different Colonia')
 
+      create(:postal_code,
+             codigo_postal: '12347',
+             estado: test_estado,
+             municipio: test_municipio,
+             colonia: 'Another Colonia')
+
+      create(:postal_code,
+             codigo_postal: '12348',
+             estado: test_estado,
+             municipio: test_municipio,
+             colonia: 'Yet Another Colonia')
+
       # Create a postal code with different estado
       create(:postal_code,
              codigo_postal: '54321',
@@ -154,7 +186,27 @@ RSpec.describe 'API' do
 
         json_response = Oj.load(last_response.body)
         expect(json_response).to have_key('codigos_postales')
-        expect(json_response['codigos_postales']).to match_array(%w[12345 12346])
+        expect(json_response['codigos_postales']).to match_array(%w[12345 12346 12347 12348])
+      end
+
+      it 'returns limited postal codes when limit parameter is provided' do
+        get "/v2/buscar_por_ubicacion?estado=#{test_estado}&municipio=#{test_municipio}&limit=2"
+        expect(last_response).to be_ok
+        expect(last_response.headers['Content-Type']).to include('application/json')
+
+        json_response = Oj.load(last_response.body)
+        expect(json_response).to have_key('codigos_postales')
+        expect(json_response['codigos_postales'].length).to eq(2)
+      end
+
+      it 'returns all postal codes when limit is not a positive number' do
+        get "/v2/buscar_por_ubicacion?estado=#{test_estado}&municipio=#{test_municipio}&limit=0"
+        expect(last_response).to be_ok
+
+        json_response = Oj.load(last_response.body)
+        expect(json_response).to have_key('codigos_postales')
+        expect(json_response['codigos_postales'].length).to eq(4)
+        expect(json_response['codigos_postales']).to match_array(%w[12345 12346 12347 12348])
       end
     end
 
@@ -166,6 +218,27 @@ RSpec.describe 'API' do
         json_response = Oj.load(last_response.body)
         expect(json_response).to have_key('codigos_postales')
         expect(json_response['codigos_postales']).to match_array(['12345'])
+      end
+
+      it 'applies limit parameter correctly with colonia filter' do
+        # Creating additional postal codes for the same colonia
+        create(:postal_code,
+               codigo_postal: '12349',
+               estado: test_estado,
+               municipio: test_municipio,
+               colonia: test_colonia)
+        create(:postal_code,
+               codigo_postal: '12350',
+               estado: test_estado,
+               municipio: test_municipio,
+               colonia: test_colonia)
+
+        get "/v2/buscar_por_ubicacion?estado=#{test_estado}&municipio=#{test_municipio}&colonia=#{test_colonia}&limit=2"
+        expect(last_response).to be_ok
+
+        json_response = Oj.load(last_response.body)
+        expect(json_response).to have_key('codigos_postales')
+        expect(json_response['codigos_postales'].length).to eq(2)
       end
     end
 

@@ -30,14 +30,16 @@ Cuba.define do
     on 'v2/buscar', param('codigo_postal') do |codigo_postal|
       res.headers['Cache-Control'] = 'max-age=525600, public'
       res.headers['Access-Control-Allow-Origin'] = '*'
-      res.write PostalCodes.fetch_codes(codigo_postal)
+      limit = req.params['limit']&.to_i
+      res.write PostalCodes.fetch_codes(codigo_postal, limit)
     end
 
     on 'v2/buscar_por_ubicacion', param('estado'), param('municipio') do |estado, municipio|
       res.headers['Cache-Control'] = 'max-age=525600, public'
       res.headers['Access-Control-Allow-Origin'] = '*'
       colonia = req.params['colonia'] # Optional parameter
-      res.write PostalCodes.fetch_by_location(estado, municipio, colonia)
+      limit = req.params['limit']&.to_i
+      res.write PostalCodes.fetch_by_location(estado, municipio, colonia, limit)
     end
   end
 end

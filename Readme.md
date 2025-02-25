@@ -48,11 +48,22 @@ _parámetros necesarios_
 ```text
   codigo_postal=# codigo a buscar, parcial o total
 ```
+
+_parámetros opcionales_
+```text
+  limit=# número máximo de resultados a devolver
+```
+
 _Ejemplo de búsqueda para códigos que inicien con **66**, con **664** y con **6641**_
 ```json
 https://mexico-zip-codes.p.rapidapi.com/buscar?codigo_postal=66
 https://mexico-zip-codes.p.rapidapi.com/buscar?codigo_postal=664
 https://mexico-zip-codes.p.rapidapi.com/buscar?codigo_postal=6641
+```
+
+_Ejemplo de búsqueda limitada a 3 resultados_
+```json
+https://mexico-zip-codes.p.rapidapi.com/buscar?codigo_postal=66&limit=3
 ```
 
 ** Para el código postal 6641 el servidor regresa **
@@ -87,6 +98,7 @@ _parámetros necesarios_
 _parámetros opcionales_
 ```text
   colonia=# nombre de la colonia (opcional)
+  limit=# número máximo de resultados a devolver
 ```
 
 _Ejemplo de búsqueda para códigos postales en Nuevo León, San Nicolás de los Garza_
@@ -97,6 +109,11 @@ https://mexico-zip-codes.p.rapidapi.com/v2/buscar_por_ubicacion?estado=Nuevo%20L
 _Ejemplo de búsqueda para códigos postales en Nuevo León, San Nicolás de los Garza, colonia Praderas de Santo Domingo_
 ```text
 https://mexico-zip-codes.p.rapidapi.com/v2/buscar_por_ubicacion?estado=Nuevo%20León&municipio=San%20Nicolás%20de%20los%20Garza&colonia=Praderas%20de%20Santo%20Domingo
+```
+
+_Ejemplo de búsqueda limitada a 5 resultados_
+```text
+https://mexico-zip-codes.p.rapidapi.com/v2/buscar_por_ubicacion?estado=Nuevo%20León&municipio=San%20Nicolás%20de%20los%20Garza&limit=5
 ```
 
 **Respuesta del servidor**

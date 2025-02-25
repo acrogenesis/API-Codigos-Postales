@@ -1,11 +1,11 @@
 module PostalCodes
-  def self.fetch_codes(code)
-    postal_codes = search_postal_codes(code)
+  def self.fetch_codes(code, limit = nil)
+    postal_codes = search_postal_codes(code, limit)
     serialize('codigos_postales' => postal_codes)
   end
 
-  def self.search_postal_codes(code)
-    PostalCode.with_code_hint(code)
+  def self.search_postal_codes(code, limit = nil)
+    PostalCode.with_code_hint(code, limit)
   end
 
   def self.fetch_locations(code)
@@ -15,24 +15,25 @@ module PostalCodes
     serialize(locations_json)
   end
 
-  def self.fetch_by_location(estado, municipio, colonia = nil)
-    postal_codes = search_by_location(estado, municipio, colonia)
+  def self.fetch_by_location(estado, municipio, colonia = nil, limit = nil)
+    postal_codes = search_by_location(estado, municipio, colonia, limit)
     locations_json = prepare_location_search_json(postal_codes, estado, municipio, colonia)
     serialize(locations_json)
   end
 
-  def self.search_by_location(estado, municipio, colonia = nil)
+  def self.search_by_location(estado, municipio, colonia = nil, limit = nil)
     # Use PostgreSQL's unaccent extension for better performance
     query = PostalCode
 
     # Find matching estado
-    matching_estado = query.where("unaccent(lower(estado)) = unaccent(lower(?))", estado).pluck(:estado).first
+    matching_estado = query.where('unaccent(lower(estado)) = unaccent(lower(?))', estado).pluck(:estado).first
 
     if matching_estado
       query = query.where(estado: matching_estado)
 
       # Find matching municipio
-      matching_municipio = query.where("unaccent(lower(municipio)) = unaccent(lower(?))", municipio).pluck(:municipio).first
+      matching_municipio = query.where('unaccent(lower(municipio)) = unaccent(lower(?))',
+                                       municipio).pluck(:municipio).first
 
       if matching_municipio
         query = query.where(municipio: matching_municipio)
@@ -40,15 +41,18 @@ module PostalCodes
         # Find matching colonia if provided
         matching_colonia = nil
         if colonia.present?
-          matching_colonia = query.where("unaccent(lower(colonia)) = unaccent(lower(?))", colonia).pluck(:colonia).first
+          matching_colonia = query.where('unaccent(lower(colonia)) = unaccent(lower(?))', colonia).pluck(:colonia).first
           query = query.where(colonia: matching_colonia) if matching_colonia
         end
+
+        postal_codes_query = query.select('DISTINCT codigo_postal').order('codigo_postal ASC')
+        postal_codes_query = postal_codes_query.limit(limit) if limit&.positive?
 
         {
           found_estado: matching_estado,
           found_municipio: matching_municipio,
           found_colonia: matching_colonia,
-          postal_codes: query.select('DISTINCT codigo_postal').order('codigo_postal ASC')
+          postal_codes: postal_codes_query
         }
       else
         { found_estado: matching_estado, found_municipio: nil, found_colonia: nil, postal_codes: [] }

@@ -1,13 +1,15 @@
 class PostalCode < ActiveRecord::Base
   self.table_name = 'codigos_postales'
 
-  scope :with_code, -> (code) { where(codigo_postal: code) }
+  scope :with_code, ->(code) { where(codigo_postal: code) }
 
-  def self.with_code_hint(code_hint)
-    where('codigo_postal LIKE :prefix', prefix: "#{code_hint}%")
-      .order(codigo_postal: :asc)
-      .distinct
-      .pluck(:codigo_postal)
+  def self.with_code_hint(code_hint, limit = nil)
+    query = where('codigo_postal LIKE :prefix', prefix: "#{code_hint}%")
+            .order(codigo_postal: :asc)
+            .distinct
+
+    query = query.limit(limit) if limit&.positive?
+    query.pluck(:codigo_postal)
   end
 
   def self.get_suburbs_for(code)
