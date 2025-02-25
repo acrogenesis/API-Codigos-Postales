@@ -12,7 +12,7 @@ Además se pueden realizar búsquedas de códigos postales usando los números i
 3) Agrega el task de `rake sepomex:update` en el addon de Heroku
 Scheduler para que se corra cada día.
 
-## Suscripción y documentación de la API 
+## Suscripción y documentación de la API
 
 [https://rapidapi.com/acrogenesis-llc-api/api/mexico-zip-codes](https://rapidapi.com/acrogenesis-llc-api/api/mexico-zip-codes)
 
@@ -66,6 +66,44 @@ https://mexico-zip-codes.p.rapidapi.com/buscar?codigo_postal=6641
     "66415",
     "66417",
     "66418"
+  ]
+}
+```
+
+---
+
+**Buscar códigos postales por ubicación**
+
+```text
+https://mexico-zip-codes.p.rapidapi.com/v2/buscar_por_ubicacion
+```
+
+_parámetros necesarios_
+```text
+  estado=# nombre del estado
+  municipio=# nombre del municipio
+```
+
+_parámetros opcionales_
+```text
+  colonia=# nombre de la colonia (opcional)
+```
+
+_Ejemplo de búsqueda para códigos postales en Nuevo León, San Nicolás de los Garza_
+```text
+https://mexico-zip-codes.p.rapidapi.com/v2/buscar_por_ubicacion?estado=Nuevo%20León&municipio=San%20Nicolás%20de%20los%20Garza
+```
+
+_Ejemplo de búsqueda para códigos postales en Nuevo León, San Nicolás de los Garza, colonia Praderas de Santo Domingo_
+```text
+https://mexico-zip-codes.p.rapidapi.com/v2/buscar_por_ubicacion?estado=Nuevo%20León&municipio=San%20Nicolás%20de%20los%20Garza&colonia=Praderas%20de%20Santo%20Domingo
+```
+
+**Respuesta del servidor**
+```json
+{
+  "codigos_postales": [
+    "66436"
   ]
 }
 ```
