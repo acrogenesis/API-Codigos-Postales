@@ -36,5 +36,13 @@ Cuba.define do
       res.headers['Access-Control-Allow-Origin'] = '*'
       res.write PostalCodes.fetch_codes(codigo_postal)
     end
+
+    on 'v2/buscar_por_ubicacion', param('estado'), param('municipio') do |estado, municipio|
+      env['warden'].authenticate!(:token)
+      res.headers['Cache-Control'] = 'max-age=525600, public'
+      res.headers['Access-Control-Allow-Origin'] = '*'
+      colonia = req.params['colonia'] # Optional parameter
+      res.write PostalCodes.fetch_by_location(estado, municipio, colonia)
+    end
   end
 end

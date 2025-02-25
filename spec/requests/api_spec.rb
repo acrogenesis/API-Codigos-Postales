@@ -25,10 +25,10 @@ RSpec.describe 'API' do
       before do
         test_colonias.each do |colonia|
           create(:postal_code,
-                codigo_postal: test_postal_code,
-                colonia: colonia,
-                municipio: test_municipio,
-                estado: test_estado)
+                 codigo_postal: test_postal_code,
+                 colonia: colonia,
+                 municipio: test_municipio,
+                 estado: test_estado)
         end
       end
 
@@ -69,7 +69,7 @@ RSpec.describe 'API' do
 
       json_response = Oj.load(last_response.body)
       puts "Response body: #{last_response.body}"
-      expect(json_response).to match_array([{'codigo_postal' => '12345'}, {'codigo_postal' => '12346'}])
+      expect(json_response).to match_array([{ 'codigo_postal' => '12345' }, { 'codigo_postal' => '12346' }])
     end
   end
 
@@ -82,10 +82,10 @@ RSpec.describe 'API' do
     before do
       test_colonias.each do |colonia|
         create(:postal_code,
-              codigo_postal: test_postal_code,
-              colonia: colonia,
-              municipio: test_municipio,
-              estado: test_estado)
+               codigo_postal: test_postal_code,
+               colonia: colonia,
+               municipio: test_municipio,
+               estado: test_estado)
       end
     end
 
@@ -115,7 +115,66 @@ RSpec.describe 'API' do
 
       json_response = Oj.load(last_response.body)
       puts "Response body: #{last_response.body}"
-      expect(json_response['codigos_postales']).to match_array(['12345', '12346'])
+      expect(json_response['codigos_postales']).to match_array(%w[12345 12346])
+    end
+  end
+
+  describe 'GET /v2/buscar_por_ubicacion' do
+    let(:test_estado) { 'Test Estado' }
+    let(:test_municipio) { 'Test Municipio' }
+    let(:test_colonia) { 'Test Colonia' }
+
+    before do
+      # Create some postal codes with the same estado and municipio but different colonias
+      create(:postal_code,
+             codigo_postal: '12345',
+             estado: test_estado,
+             municipio: test_municipio,
+             colonia: test_colonia)
+
+      create(:postal_code,
+             codigo_postal: '12346',
+             estado: test_estado,
+             municipio: test_municipio,
+             colonia: 'Different Colonia')
+
+      # Create a postal code with different estado
+      create(:postal_code,
+             codigo_postal: '54321',
+             estado: 'Different Estado',
+             municipio: test_municipio,
+             colonia: test_colonia)
+    end
+
+    context 'with estado and municipio parameters' do
+      it 'returns all matching postal codes' do
+        get "/v2/buscar_por_ubicacion?estado=#{test_estado}&municipio=#{test_municipio}"
+        expect(last_response).to be_ok
+        expect(last_response.headers['Content-Type']).to include('application/json')
+
+        json_response = Oj.load(last_response.body)
+        expect(json_response).to have_key('codigos_postales')
+        expect(json_response['codigos_postales']).to match_array(%w[12345 12346])
+      end
+    end
+
+    context 'with estado, municipio and colonia parameters' do
+      it 'returns matching postal codes filtered by colonia' do
+        get "/v2/buscar_por_ubicacion?estado=#{test_estado}&municipio=#{test_municipio}&colonia=#{test_colonia}"
+        expect(last_response).to be_ok
+
+        json_response = Oj.load(last_response.body)
+        expect(json_response).to have_key('codigos_postales')
+        expect(json_response['codigos_postales']).to match_array(['12345'])
+      end
+    end
+
+    context 'without authentication' do
+      it 'returns unauthorized' do
+        header 'X-RapidAPI-Key', nil
+        get "/v2/buscar_por_ubicacion?estado=#{test_estado}&municipio=#{test_municipio}"
+        expect(last_response.status).to eq(401)
+      end
     end
   end
 end
