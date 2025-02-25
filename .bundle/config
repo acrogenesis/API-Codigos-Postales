@@ -1,2 +1,0 @@
----
-BUNDLE_BUILD__NIO4R: "--with-cflags=-Wno-incompatible-pointer-types"
