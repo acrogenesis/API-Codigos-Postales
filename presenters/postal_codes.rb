@@ -22,33 +22,40 @@ module PostalCodes
   end
 
   def self.search_by_location(estado, municipio, colonia = nil)
-    normalized_estado = normalize_text(estado)
-    normalized_municipio = normalize_text(municipio)
-    normalized_colonia = normalize_text(colonia) if colonia.present?
+    # Use PostgreSQL's unaccent extension for better performance
+    query = PostalCode
 
-    # For PostgreSQL, we could use the unaccent extension, but for wider compatibility
-    # we'll use a more general approach
-    estados = PostalCode.pluck(:estado).uniq
-    matching_estados = estados.select { |e| normalize_text(e).downcase == normalized_estado.downcase }
+    # Find matching estado
+    matching_estado = query.where("unaccent(lower(estado)) = unaccent(lower(?))", estado).pluck(:estado).first
 
-    municipios = PostalCode.where(estado: matching_estados).pluck(:municipio).uniq
-    matching_municipios = municipios.select { |m| normalize_text(m).downcase == normalized_municipio.downcase }
+    if matching_estado
+      query = query.where(estado: matching_estado)
 
-    query = PostalCode.where(estado: matching_estados, municipio: matching_municipios)
+      # Find matching municipio
+      matching_municipio = query.where("unaccent(lower(municipio)) = unaccent(lower(?))", municipio).pluck(:municipio).first
 
-    matching_colonias = nil
-    if colonia.present?
-      colonias = query.pluck(:colonia).uniq
-      matching_colonias = colonias.select { |c| normalize_text(c).downcase == normalized_colonia.downcase }
-      query = query.where(colonia: matching_colonias)
+      if matching_municipio
+        query = query.where(municipio: matching_municipio)
+
+        # Find matching colonia if provided
+        matching_colonia = nil
+        if colonia.present?
+          matching_colonia = query.where("unaccent(lower(colonia)) = unaccent(lower(?))", colonia).pluck(:colonia).first
+          query = query.where(colonia: matching_colonia) if matching_colonia
+        end
+
+        {
+          found_estado: matching_estado,
+          found_municipio: matching_municipio,
+          found_colonia: matching_colonia,
+          postal_codes: query.select('DISTINCT codigo_postal').order('codigo_postal ASC')
+        }
+      else
+        { found_estado: matching_estado, found_municipio: nil, found_colonia: nil, postal_codes: [] }
+      end
+    else
+      { found_estado: nil, found_municipio: nil, found_colonia: nil, postal_codes: [] }
     end
-
-    {
-      found_estado: matching_estados.first,
-      found_municipio: matching_municipios.first,
-      found_colonia: matching_colonias&.first,
-      postal_codes: query.select('DISTINCT codigo_postal').order('codigo_postal ASC')
-    }
   end
 
   def self.normalize_text(text)
