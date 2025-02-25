@@ -1,8 +1,7 @@
 module PostalCodes
   def self.fetch_codes(code)
     postal_codes = search_postal_codes(code)
-    postal_codes_json = prepare_postal_codes_json(postal_codes)
-    serialize(postal_codes_json)
+    serialize("codigos_postales" => postal_codes)
   end
 
   def self.search_postal_codes(code)

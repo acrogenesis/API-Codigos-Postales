@@ -17,7 +17,8 @@ module Authentication
     private
 
     def access_token
-      @access_token ||= request.get_header("HTTP_#{ENV['VALIDATE_HEADER']}")
+      header_name = ENV['VALIDATE_HEADER'].upcase.gsub('-', '_')
+      @access_token ||= request.get_header("HTTP_#{header_name}")
     end
   end
 end

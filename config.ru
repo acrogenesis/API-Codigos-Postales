@@ -12,13 +12,32 @@ require './models/postal_code'
 require './presenters/postal_codes'
 require './authentication/token_strategy'
 
+# Configure Cuba to handle JSON responses
+Cuba.settings[:format] = :json
+Cuba.settings[:content_type] = 'application/json; charset=utf-8'
+
+# Define a middleware to set JSON content type for all responses except root
+class JsonContentType
+  def initialize(app)
+    @app = app
+  end
+
+  def call(env)
+    status, headers, response = @app.call(env)
+    if env['PATH_INFO'] != '/'
+      headers['Content-Type'] = 'application/json; charset=utf-8'
+    end
+    [status, headers, response]
+  end
+end
+
 if ENV['VALIDATE_HEADER']
   Warden::Strategies.add(:token, Authentication::TokenStrategy)
   use Warden::Manager do |manager|
     manager.default_strategies :token
     manager.failure_app = lambda { |_e|
       [401, { 'Content-Type' => 'application/json' },
-       [{ error: 'Not Authorized to use API. Check https://rapidapi.com/acrogenesis/api/mexico-zip-codes' }.to_json]]
+       [Oj.dump({ error: 'Not Authorized to use API. Check https://rapidapi.com/acrogenesis/api/mexico-zip-codes' }, mode: :object)]]
     }
   end
 end
@@ -38,4 +57,5 @@ if ENV['MEMCACHEDCLOUD_USERNAME']
       entitystore: client
 end
 
+use JsonContentType
 run Cuba

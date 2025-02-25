@@ -18,3 +18,11 @@ gem 'warden'
 
 gem 'foreman', group: :development
 gem 'rubocop', group: :development
+
+group :test do
+  gem 'rspec'
+  gem 'database_cleaner-active_record'
+  gem 'factory_bot'
+  gem 'faker'
+  gem 'rack-test'
+end

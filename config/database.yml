@@ -5,3 +5,11 @@ development:
   timeout: 5000
   database: api-codigos-postales
   host: localhost
+
+test:
+  adapter: postgresql
+  min_messages: ERROR
+  pool: 5
+  timeout: 5000
+  database: api-codigos-postales-test
+  host: localhost
