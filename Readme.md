@@ -119,9 +119,6 @@ Para bajar en tu BD todos los códigos postales corre el rake script `rake sepom
 
 Los datos se obtuvieron de http://www.correosdemexico.gob.mx/lservicios/servicios/CodigoPostal_Exportar.aspx
 
-### TODO
-- [ ] Pruebas automatizadas minitest
-
 ### Los datos se actualizan cada domingo.
 
 ### Licencia
