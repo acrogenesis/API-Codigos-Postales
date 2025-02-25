@@ -16,32 +16,18 @@ require 'logger'
 require 'dalli'
 require 'rack/cache'
 require 'cuba'
-require 'warden'
 
 # Load application specific files
 require_relative '../db'
 require_relative '../app'
 require_relative '../models/postal_code'
 require_relative '../presenters/postal_codes'
-require_relative '../authentication/token_strategy'
 
-# Configure Warden for testing
-Warden::Strategies.add(:token, Authentication::TokenStrategy)
+# Load middleware
+require_relative '../middleware/json_content_type'
+require_relative '../middleware/header_auth_check'
 
-# Custom middleware to set JSON content type
-class JsonContentType
-  def initialize(app)
-    @app = app
-  end
-
-  def call(env)
-    status, headers, response = @app.call(env)
-    if env['PATH_INFO'] != '/'
-      headers['Content-Type'] = 'application/json; charset=utf-8'
-    end
-    [status, headers, response]
-  end
-end
+# Custom middleware classes have been moved to their own files in the middleware directory
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
@@ -63,14 +49,10 @@ RSpec.configure do |config|
 
   def app
     Rack::Builder.new do
+      # Apply the authentication middleware first
+      use HeaderAuthCheck
+      # Then apply the JSON content type middleware
       use JsonContentType
-      use Warden::Manager do |manager|
-        manager.default_strategies :token
-        manager.failure_app = lambda { |_e|
-          [401, { 'Content-Type' => 'application/json' },
-           [Oj.dump({ error: 'Not Authorized to use API. Check https://rapidapi.com/acrogenesis/api/mexico-zip-codes' }, mode: :object)]]
-        }
-      end
 
       map '/' do
         run Cuba

@@ -14,7 +14,6 @@ gem 'rack'
 gem 'rack-cache'
 gem 'rake'
 gem 'rubyzip'
-gem 'warden'
 
 group :development do
   gem 'dotenv'
