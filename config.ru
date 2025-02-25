@@ -31,9 +31,7 @@ class JsonContentType
 
   def call(env)
     status, headers, response = @app.call(env)
-    if env['PATH_INFO'] != '/'
-      headers['Content-Type'] = 'application/json; charset=utf-8'
-    end
+    headers['Content-Type'] = 'application/json; charset=utf-8' if env['PATH_INFO'] != '/'
     [status, headers, response]
   end
 end
@@ -44,7 +42,7 @@ if ENV['VALIDATE_HEADER']
     manager.default_strategies :token
     manager.failure_app = lambda { |_e|
       [401, { 'Content-Type' => 'application/json' },
-       [Oj.dump({ error: 'Not Authorized to use API. Check https://rapidapi.com/acrogenesis/api/mexico-zip-codes' }, mode: :object)]]
+       [Oj.dump({ 'error' => 'Not Authorized to use API. Check https://rapidapi.com/acrogenesis/api/mexico-zip-codes' }, mode: :object)]]
     }
   end
 end
