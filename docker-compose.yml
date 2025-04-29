@@ -1,0 +1,51 @@
+# docker-compose.yml
+
+services:
+  db:
+    image: postgres:15 # Use a version known to have 'unaccent' readily available
+    container_name: codigos-postales-db
+    environment:
+      POSTGRES_USER: postgres      # Choose a username
+      POSTGRES_PASSWORD: postgres  # Choose a strong password
+      POSTGRES_DB: api-codigos-postales        # Matches database.yml
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    healthcheck:
+      # Ensure username matches POSTGRES_USER above
+      test: ["CMD-SHELL", "pg_isready -U your_postgres_user -d api-codigos-postales"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: . # Build from Dockerfile in the current directory
+    container_name: codigos-postales-web
+    command: bundle exec puma -p 3000 -e development
+    volumes:
+      # Optional: Mount code for live changes in development
+      # Note: Might cause issues with permissions or dependencies installed in the image
+      # - .:/app
+      - gem_cache:/usr/local/bundle/gems # Persist gems
+    ports:
+      - "3000:3000" # Map host port 3000 to container port 3000
+    depends_on:
+      db:
+        condition: service_healthy # Wait for DB to be ready
+    networks:
+      - app-network
+    environment:
+      RACK_ENV: development
+      # Construct DATABASE_URL using DB service details
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/api-codigos-postales    
+      VALIDATE_HEADER: X-API-TOKEN             # Example header name
+      VALIDATE_HEADER_VALUE: very-secret-local-token # Example token value
+      # PORT: 3000 # Optional, already default
+
+volumes:
+  postgres_data:
+  gem_cache:
+
+networks:
+  app-network:

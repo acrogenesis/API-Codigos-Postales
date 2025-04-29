@@ -3,6 +3,8 @@
 source 'https://rubygems.org'
 ruby '3.4.2'
 
+
+
 gem 'activerecord'
 gem 'cuba'
 gem 'dalli'

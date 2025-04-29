@@ -12,6 +12,88 @@ Además se pueden realizar búsquedas de códigos postales usando los números i
 3) Agrega el task de `rake sepomex:update` en el addon de Heroku
 Scheduler para que se corra cada día.
 
+## Local Development Setup using Docker
+
+This project includes configuration for running locally using Docker and Docker Compose.
+
+**Prerequisites:**
+* Docker Engine
+* Docker Compose
+
+**Steps:**
+
+1.  **Clone the Repository:**
+    ```bash
+    git clone <your-fork-url>
+    cd API-Codigos-Postales
+    ```
+
+2.  **Build the Docker Image:**
+    This command builds the necessary image based on the `Dockerfile`. It uses Bundler to install gems specified in `Gemfile.lock`.
+    ```bash
+    docker compose build
+    ```
+
+3.  **Start the Database:**
+    This starts the PostgreSQL database container in the background.
+    ```bash
+    docker compose up -d db
+    ```
+    Wait a few seconds for the database to initialize (check `docker compose ps` for health status).
+
+4.  **Run Database Migrations:**
+    This sets up the necessary tables in the database.
+    ```bash
+    docker compose run --rm web bundle exec rake db:migrate
+    ```
+
+5.  **Seed the Database (Workaround Required):**
+
+    **KNOWN ISSUE:** Running the standard `bundle exec rake sepomex:update` task fails with a `LoadError: cannot load such file -- csv` within the Docker/Ruby 3.4.2 environment when executed via `bundle exec`. This appears to be a deep issue related to Bundler's execution context interfering with the loading of the default `csv` gem.
+
+    **Workaround:** A separate script `run_sepomex_update.rb` has been created to perform the data download and import. However, due to the nature of the loading issue and other errors encountered when running without `bundle exec`, the most reliable (though complex) way to run this locally is currently:
+
+    * **Option 1 (Recommended workaround):** Temporarily modify the `Dockerfile` to install gems globally, run the script without `bundle exec`, then revert the `Dockerfile`.
+        1.  Comment out the `COPY Gemfile* ./` and `RUN bundle install` lines in `Dockerfile`.
+        2.  Add `RUN gem install pg activerecord:8.0.1 activesupport:8.0.1 activemodel:8.0.1 rubyzip --no-document` before `WORKDIR /app`.
+        3.  Rebuild: `docker compose build --no-cache web`
+        4.  Run the script: `docker compose run --rm web ruby run_sepomex_update.rb`
+        5.  **CRITICAL:** Revert the `Dockerfile` changes back to using `bundle install` and remove the `gem install` line.
+        6.  Rebuild again: `docker compose build web`
+
+    * **Option 2:** Get an interactive shell (`docker compose run --rm web bash`) and manually run the core download/parse/insert logic from `run_sepomex_update.rb` using `ruby -e "..."` commands.
+
+    *Note: This seeding issue needs further investigation to find a less cumbersome solution.*
+
+6.  **Start the Application Server:**
+    Once the database is seeded (using the workaround), start the Puma web server. Ensure your Dockerfile uses `bundle install` (not the global gem install workaround) before this step.
+    ```bash
+    docker compose up -d web
+    ```
+    *(Or `docker compose up -d` to start/ensure both services are running)*
+
+7.  **Access the API:**
+    The API should now be running at `http://localhost:3000`. You can test endpoints using `curl` or Postman. Remember to include the authentication header defined in `docker-compose.yml` (default example: `X-API-TOKEN: very-secret-local-token`).
+
+    **Example Curl:**
+    ```bash
+    # Replace XXXXX with a valid postal code
+    curl -H "X-API-TOKEN: very-secret-local-token" http://localhost:3000/v2/codigo_postal/XXXXX
+
+    # Example search
+    curl -H "X-API-TOKEN: very-secret-local-token" "http://localhost:3000/v2/buscar?codigo_postal=290"
+    ```
+
+8.  **Stopping:**
+    To stop the containers:
+    ```bash
+    docker compose down
+    ```
+    To stop and remove the database volume (deletes data):
+    ```bash
+    docker compose down -v
+    ```
+
 ## Suscripción y documentación de la API
 
 [https://rapidapi.com/acrogenesis-llc-api/api/mexico-zip-codes](https://rapidapi.com/acrogenesis-llc-api/api/mexico-zip-codes)

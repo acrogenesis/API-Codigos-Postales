@@ -1,6 +1,10 @@
+$LOAD_PATH.unshift('/usr/local/lib/ruby/3.4.0') unless $LOAD_PATH.include?('/usr/local/lib/ruby/3.4.0')
+
+
 require 'active_record'
 require 'yaml'
 require './db'
+require 'csv'
 desc 'Run migrations'
 namespace :db do
   task :migrate do
@@ -17,7 +21,6 @@ namespace :sepomex do
     require 'net/http'
     require 'uri'
     require 'zip'
-    require 'csv'
     require './models/postal_code'
 
     uri = URI.parse('https://www.correosdemexico.gob.mx/SSLServicios/ConsultaCP/CodigoPostal_Exportar.aspx')
