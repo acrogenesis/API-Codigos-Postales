@@ -24,7 +24,7 @@ This project includes configuration for running locally using Docker and Docker 
 
 1.  **Clone the Repository:**
     ```bash
-    git clone <your-fork-url>
+    git clone https://github.com/AntoSalazar/API-Codigos-Postales.git
     cd API-Codigos-Postales
     ```
 
