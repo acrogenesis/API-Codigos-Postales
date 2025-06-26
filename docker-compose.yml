@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: codigos-postales-db-test
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: api-codigos-postales
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d api-codigos-postales"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    container_name: codigos-postales-web-test
+    command: bundle exec puma -p 3000 -e development
+    volumes:
+      - .:/app
+      - gem_cache:/usr/local/bundle/gems
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+    environment:
+      RACK_ENV: development
+      DATABASE_URL: postgresql://postgres:password@db:5432/api-codigos-postales
+      VALIDATE_HEADER: X-API-TOKEN
+      VALIDATE_HEADER_VALUE: very-secret-local-token
+
+  cron_worker:
+    build: .
+    container_name: codigos-postales-cron
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      RACK_ENV: development
+      DATABASE_URL: postgresql://postgres:password@db:5432/api-codigos-postales
+    volumes:
+      - .:/app
+      - gem_cache:/usr/local/bundle/gems
+    command: cron -f
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+  gem_cache:
+
+networks:
+  app-network:
