@@ -40,6 +40,22 @@ services:
       VALIDATE_HEADER: X-API-TOKEN
       VALIDATE_HEADER_VALUE: very-secret-local-token
 
+  cron_worker:
+    build: .
+    container_name: codigos-postales-cron
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      RACK_ENV: development
+      DATABASE_URL: postgresql://postgres:password@db:5432/api-codigos-postales
+    volumes:
+      - .:/app
+      - gem_cache:/usr/local/bundle/gems
+    command: cron -f
+    networks:
+      - app-network
+
 volumes:
   postgres_data:
   gem_cache:

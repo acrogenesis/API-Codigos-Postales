@@ -57,6 +57,48 @@ This project can be easily run using Docker Compose, which sets up both the Ruby
 7.  **Access the application:**
     The API will be available at `http://localhost:3001`.
 
+## Scheduled Data Updates (Cron Job)
+
+This project includes a daily cron job to automatically update the postal code data from SEPOMEX. The update is scheduled to run every day at 3:00 AM (UTC).
+
+**How to Verify the Cron Job:**
+
+1.  **Ensure the `cron_worker` service is running:**
+    ```bash
+    docker compose up -d cron_worker
+    ```
+
+2.  **Check the `cron_worker` logs:**
+    ```bash
+    docker compose logs -f cron_worker
+    ```
+    You should see output related to the `rake sepomex:update` task when it runs.
+
+**How to Manually Trigger the Update (for testing):**
+
+To test the update process without waiting for the scheduled time, you can manually execute the update script inside the `cron_worker` container:
+
+```bash
+docker compose exec cron_worker /app/update_sepomex.sh
+```
+
+**Temporarily Adjusting Cron Schedule for Testing:**
+
+If you need to test the cron daemon's scheduling functionality, you can temporarily modify the cron schedule:
+
+1.  Edit the `cron/sepomex_update_cron` file inside your project directory.
+2.  Change the schedule (e.g., `0 3 * * *` to `* * * * *` for every minute).
+3.  Rebuild the `cron_worker` service:
+    ```bash
+    docker compose build cron_worker
+    ```
+4.  Restart the `cron_worker` service:
+    ```bash
+    docker compose up -d cron_worker
+    ```
+5.  Monitor the logs (`docker compose logs -f cron_worker`) to see the job run at the new interval.
+6.  **Remember to revert the cron schedule** in `cron/sepomex_update_cron` back to `0 3 * * *` and rebuild/restart the `cron_worker` service after testing.
+
 ## Suscripción y documentación de la API
 
 [https://rapidapi.com/acrogenesis-llc-api/api/mexico-zip-codes](https://rapidapi.com/acrogenesis-llc-api/api/mexico-zip-codes)
