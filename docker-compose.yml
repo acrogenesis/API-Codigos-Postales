@@ -1,47 +1,44 @@
-# docker-compose.yml
+version: '3.8'
 
 services:
   db:
-    image: postgres:15 # Use a version known to have 'unaccent' readily available
-    container_name: codigos-postales-db
+    image: postgres:15
+    container_name: codigos-postales-db-test
     environment:
-      POSTGRES_USER: postgres      # Choose a username
-      POSTGRES_PASSWORD: postgres  # Choose a strong password
-      POSTGRES_DB: api-codigos-postales        # Matches database.yml
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: api-codigos-postales
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     networks:
       - app-network
     healthcheck:
-      # Ensure username matches POSTGRES_USER above
-      test: ["CMD-SHELL", "pg_isready -U your_postgres_user -d api-codigos-postales"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d api-codigos-postales"]
       interval: 5s
       timeout: 5s
       retries: 5
 
   web:
-    build: . # Build from Dockerfile in the current directory
-    container_name: codigos-postales-web
+    build: .
+    container_name: codigos-postales-web-test
     command: bundle exec puma -p 3000 -e development
     volumes:
-      # Optional: Mount code for live changes in development
-      # Note: Might cause issues with permissions or dependencies installed in the image
-      # - .:/app
-      - gem_cache:/usr/local/bundle/gems # Persist gems
+      - .:/app
+      - gem_cache:/usr/local/bundle/gems
     ports:
-      - "3000:3000" # Map host port 3000 to container port 3000
+      - "3000:3000"
     depends_on:
       db:
-        condition: service_healthy # Wait for DB to be ready
+        condition: service_healthy
     networks:
       - app-network
     environment:
       RACK_ENV: development
-      # Construct DATABASE_URL using DB service details
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/api-codigos-postales    
-      VALIDATE_HEADER: X-API-TOKEN             # Example header name
-      VALIDATE_HEADER_VALUE: very-secret-local-token # Example token value
-      # PORT: 3000 # Optional, already default
+      DATABASE_URL: postgresql://postgres:password@db:5432/api-codigos-postales
+      VALIDATE_HEADER: X-API-TOKEN
+      VALIDATE_HEADER_VALUE: very-secret-local-token
 
 volumes:
   postgres_data:
