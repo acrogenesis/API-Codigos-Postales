@@ -1,18 +1,20 @@
-FROM ruby:3.1-slim
+FROM ruby:3.4.2
 
-ENV RACK_ENV=production
-ENV LANG=en_US.UTF-8
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev cron
 
-RUN apt update && apt install -y \
-  build-essential libpq-dev  \
-  && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
 
-# Install deps
-ADD Gemfile Gemfile.lock ./
+COPY Gemfile Gemfile.lock ./
 
 RUN bundle install
 
-ADD . .
+COPY update_sepomex.sh /app/update_sepomex.sh
+COPY cron/sepomex_update_cron /etc/cron.d/sepomex_update_cron
+RUN chmod +x /app/update_sepomex.sh
+RUN chmod 0644 /etc/cron.d/sepomex_update_cron
 
-# run server
-CMD bundle exec puma -p ${PORT:-3000} -e ${RACK_ENV:-development}
+COPY . .
+
+EXPOSE 3000
+
+CMD ["bundle", "exec", "puma", "-p", "3000", "-e", "development"]
