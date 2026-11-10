@@ -6,19 +6,16 @@ ruby '4.0.9'
 gem 'activerecord'
 gem 'csv'
 gem 'cuba'
-gem 'dalli'
 gem 'oj'
 gem 'oj_mimic_json'
 gem 'pg'
 gem 'puma'
 gem 'rack'
-gem 'rack-cache'
 gem 'rake'
 gem 'rubyzip'
 
 group :development do
   gem 'dotenv'
-  gem 'foreman'
   gem 'rubocop'
 end
 

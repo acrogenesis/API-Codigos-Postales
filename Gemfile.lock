@@ -29,8 +29,6 @@ GEM
     cuba (4.0.3)
       rack (>= 3.0.0)
       rack-session (>= 2.0.0)
-    dalli (5.3.2)
-      logger
     database_cleaner-active_record (2.2.2)
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0)
@@ -42,8 +40,6 @@ GEM
       activesupport (>= 6.1.0)
     faker (3.8.0)
       i18n (>= 1.8.11, < 2)
-    foreman (0.90.0)
-      thor (~> 1.4)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
     json (3.1.0)
@@ -67,8 +63,6 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.8)
-    rack-cache (1.17.0)
-      rack (>= 0.4)
     rack-session (2.1.2)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -107,7 +101,6 @@ GEM
     ruby-progressbar (1.13.0)
     rubyzip (3.7.0)
     securerandom (0.4.1)
-    thor (1.5.0)
     timeout (0.6.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -123,18 +116,15 @@ DEPENDENCIES
   activerecord
   csv
   cuba
-  dalli
   database_cleaner-active_record
   dotenv
   factory_bot
   faker
-  foreman
   oj
   oj_mimic_json
   pg
   puma
   rack
-  rack-cache
   rack-test
   rake
   rspec

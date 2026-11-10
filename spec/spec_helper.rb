@@ -13,8 +13,6 @@ require 'oj'
 require 'active_record'
 require 'pg'
 require 'logger'
-require 'dalli'
-require 'rack/cache'
 require 'cuba'
 
 # Load application specific files
