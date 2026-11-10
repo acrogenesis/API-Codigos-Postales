@@ -1,0 +1,11 @@
+[Unit]
+Description=Import the latest SEPOMEX postal codes
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/root/web/api-codigos-postales
+EnvironmentFile=/etc/api-codigos-postales/env
+Environment=HOME=/root
+ExecStart=/root/.local/bin/mise exec -- bundle exec rake sepomex:update

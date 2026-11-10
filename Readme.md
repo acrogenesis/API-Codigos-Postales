@@ -1,16 +1,25 @@
 # API para los códigos postales de México
 [![Code Climate](https://codeclimate.com/github/Munett/API-Codigos-Postales/badges/gpa.svg)](https://codeclimate.com/github/Munett/API-Codigos-Postales)
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/acrogenesis/API-Codigos-Postales)
-
 Dado un código postal, regresa un arreglo con las colonia, municipio y estado perteneciente al código postal.
 Además se pueden realizar búsquedas de códigos postales usando los números iniciales.
 
-## Sube la app a heroku
-1) Da click en el botón `Deploy to Heroku` y sigue los pasos.
-2) Al terminar corre `heroku run rake sepomex:update`.
-3) Agrega el task de `rake sepomex:update` en el addon de Heroku
-Scheduler para que se corra cada día.
+## Deployment
+
+Production runs on a VPS behind a Cloudflare tunnel at
+`https://api-codigos-postales.acrogenesis.com`.
+
+- Checkout: `/root/web/api-codigos-postales`, Ruby from `.tool-versions` via mise.
+- Puma listens on `127.0.0.1:4003` (`api-codigos-postales.service`).
+- Secrets (`DATABASE_URL`, `VALIDATE_HEADER`, `VALIDATE_HEADER_VALUE`) live in `/etc/api-codigos-postales/env`.
+- Local PostgreSQL 18 database `api_codigos_postales`.
+- `sepomex-update.timer` runs `rake sepomex:update` daily at 09:00 UTC.
+
+Deploy the pushed `main` branch:
+
+```sh
+ssh root@<vps> 'bash /root/web/api-codigos-postales/deploy/deploy.sh'
+```
 
 ## Suscripción y documentación de la API
 

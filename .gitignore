@@ -2,3 +2,7 @@
 *.log
 secrets.yaml
 .env
+.bundle/
+vendor/bundle/
+latest.zip
+latest.csv

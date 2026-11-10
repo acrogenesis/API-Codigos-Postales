@@ -1,0 +1,15 @@
+[Unit]
+Description=API Codigos Postales (Puma)
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+WorkingDirectory=/root/web/api-codigos-postales
+EnvironmentFile=/etc/api-codigos-postales/env
+Environment=HOME=/root
+ExecStart=/root/.local/bin/mise exec -- bundle exec puma -t 1:5 -b tcp://127.0.0.1:4003 -e production
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
